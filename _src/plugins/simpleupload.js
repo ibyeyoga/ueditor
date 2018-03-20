@@ -101,6 +101,9 @@ UE.plugin.register("simpleupload", function() {
               body = (iframe.contentDocument || iframe.contentWindow.document)
                 .body,
               result = body.innerText || body.textContent || "";
+              var jsonMatchPattern = /\{(.+?)\}/;
+              var jsonMatch = result.replace(/[\r\n]/g,"").match(jsonMatchPattern);
+              result = jsonMatch[0];
             json = new Function("return " + result)();
             link = me.options.imageUrlPrefix + json.url;
             if (json.state == "SUCCESS" && json.url) {
